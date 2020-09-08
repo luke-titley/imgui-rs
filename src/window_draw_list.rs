@@ -84,7 +84,7 @@ impl<'ui> WindowDrawList<'ui> {
 
     pub(crate) fn background(self) -> Self {
         Self {
-            draw_list: unsafe { sys::igGetBackgroundDrawList() },
+            draw_list: unsafe { sys::igGetBackgroundDrawListNil() },
             _phantom: PhantomData,
         }
     }

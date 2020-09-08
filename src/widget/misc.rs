@@ -22,7 +22,9 @@ impl<'ui> Ui<'ui> {
     ///
     /// Returns true if this button was clicked.
     pub fn invisible_button(&self, id: &ImStr, size: [f32; 2]) -> bool {
-        unsafe { sys::igInvisibleButton(id.as_ptr(), size.into()) }
+        unsafe {
+            sys::igInvisibleButton(id.as_ptr(), size.into(), sys::ImGuiButtonFlags_None as i32)
+        } // TODO LT: Provide the button flags as parameters
     }
     /// Renders a square button with an arrow shape.
     ///

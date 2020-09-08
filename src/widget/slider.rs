@@ -55,7 +55,7 @@ impl<'a, T: DataTypeKind> Slider<'a, T> {
                 self.display_format
                     .map(ImStr::as_ptr)
                     .unwrap_or(ptr::null()),
-                self.power,
+                self.power as i32, // TODO LT: Change power to i32
             )
         }
     }
@@ -74,7 +74,7 @@ impl<'a, T: DataTypeKind> Slider<'a, T> {
                 self.display_format
                     .map(ImStr::as_ptr)
                     .unwrap_or(ptr::null()),
-                self.power,
+                self.power as i32, // TODO LT: Change power to i32
             )
         }
     }
@@ -131,7 +131,7 @@ impl<'a, T: DataTypeKind> VerticalSlider<'a, T> {
                 self.display_format
                     .map(ImStr::as_ptr)
                     .unwrap_or(ptr::null()),
-                self.power,
+                self.power as i32, // TODO LT: Change power to i32
             )
         }
     }
@@ -187,6 +187,7 @@ impl<'a> AngleSlider<'a> {
                 self.min_degrees,
                 self.max_degrees,
                 self.display_format.as_ptr(),
+                sys::ImGuiSliderFlags_None as i32, // TODO LT: Replace with a field in this builder.
             )
         }
     }

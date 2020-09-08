@@ -27,7 +27,7 @@ macro_rules! impl_power {
     ($InputType:ident) => {
         #[inline]
         pub fn power(mut self, value: f32) -> Self {
-            self.power = value;
+            self.power = value; // TODO LT: Make power an i32
             self
         }
     };
@@ -84,7 +84,7 @@ impl<'ui, 'p> DragFloat<'ui, 'p> {
                 self.min,
                 self.max,
                 self.display_format.as_ptr(),
-                self.power,
+                self.power as i32, // TODO LT: Make power an i32
             )
         }
     }
@@ -132,7 +132,7 @@ macro_rules! impl_drag_floatn {
                         self.min,
                         self.max,
                         self.display_format.as_ptr(),
-                        self.power,
+                        self.power as i32, // TODO LT: Make power an i32
                     )
                 }
             }
@@ -195,7 +195,7 @@ impl<'ui, 'p> DragFloatRange2<'ui, 'p> {
                 self.max,
                 self.display_format.as_ptr(),
                 self.display_format_max.map_or(ptr::null(), |f| f.as_ptr()),
-                self.power,
+                self.power as i32, // TODO LT: Make power an i32
             )
         }
     }
@@ -245,6 +245,7 @@ impl<'ui, 'p> DragInt<'ui, 'p> {
                 self.min,
                 self.max,
                 self.display_format.as_ptr(),
+                sys::ImGuiSliderFlags_None as i32, // TODO LT: Replace with a field in this builder.
             )
         }
     }
@@ -289,6 +290,7 @@ macro_rules! impl_drag_intn {
                         self.min,
                         self.max,
                         self.display_format.as_ptr(),
+                        sys::ImGuiSliderFlags_None as i32, // TODO LT: Replace with a field in this builder.
                     )
                 }
             }
@@ -348,6 +350,7 @@ impl<'ui, 'p> DragIntRange2<'ui, 'p> {
                 self.max,
                 self.display_format.as_ptr(),
                 self.display_format_max.map_or(ptr::null(), |f| f.as_ptr()),
+                sys::ImGuiSliderFlags_None as i32, // TODO LT: Replace with a field in this builder.
             )
         }
     }
