@@ -29,11 +29,11 @@ impl<'ui> Ui<'ui> {
     }
     /// Sets the horizontal scrolling position
     pub fn set_scroll_x(&self, scroll_x: f32) {
-        unsafe { sys::igSetScrollHereX(scroll_x) };
+        unsafe { sys::igSetScrollXFloat(scroll_x) };
     }
     /// Sets the vertical scroll position
     pub fn set_scroll_y(&self, scroll_y: f32) {
-        unsafe { sys::igSetScrollHereY(scroll_y) };
+        unsafe { sys::igSetScrollYFloat(scroll_y) };
     }
     /// Adjusts the horizontal scroll position to make the current cursor position visible
     pub fn set_scroll_here_x(&self) {
