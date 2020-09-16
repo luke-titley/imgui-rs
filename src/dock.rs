@@ -30,12 +30,12 @@ impl DockNode {
         self
     }
 
-    pub fn split<F: FnOnce(DockNode)>(
+    pub fn split<D: FnOnce(DockNode), O: FnOnce(DockNode)>(
         self,
         split_dir: Direction,
         size_ratio: f32,
-        dir: F,
-        opposite_dir: F,
+        dir: D,
+        opposite_dir: O,
     ) {
         let mut out_id_at_dir: sys::ImGuiID = 0;
         let mut out_id_at_opposite_dir: sys::ImGuiID = 0;
@@ -63,9 +63,7 @@ impl Dock {
     }
 
     pub fn build<F: FnOnce(DockNode)>(self, f: F) {
-        let dock_id = unsafe {
-            sys::igDockBuilderAddNode(0, sys::ImGuiDockNodeFlags_None as i32)
-        };
+        let dock_id = unsafe { sys::igDockBuilderAddNode(0, sys::ImGuiDockNodeFlags_None as i32) };
 
         f(DockNode::new(dock_id));
 
