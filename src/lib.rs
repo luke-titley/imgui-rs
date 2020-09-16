@@ -11,6 +11,11 @@ use std::thread;
 
 pub use self::clipboard::*;
 pub use self::context::*;
+pub use self::drag::{
+    DragFloat, DragFloat2, DragFloat3, DragFloat4, DragFloatRange2, DragInt, DragInt2, DragInt3,
+    DragInt4, DragIntRange2,
+};
+pub use self::dock::Dock;
 pub use self::fonts::atlas::*;
 pub use self::fonts::font::*;
 pub use self::fonts::glyph::*;
@@ -51,6 +56,8 @@ use internal::RawCast;
 mod clipboard;
 mod columns;
 mod context;
+mod drag;
+mod dock;
 mod fonts;
 mod input;
 mod input_widget;
