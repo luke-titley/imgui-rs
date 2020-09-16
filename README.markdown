@@ -1,4 +1,41 @@
-# imgui-rs: Rust bindings for Dear ImGui
+# imgui-docking-rs: Rust bindings for Dear ImGui
+
+This is a fork of the Gekkio/imgui-rs repo, adding support for docking from this repo https://github.com/rasky/imgui-rs/tree/docking, with some updates.
+This repo also has a basic public api for the dearimgui DockBuilder.
+
+This repo stays in lock step with the master branch of Gekkio/imgui-rs, but with changes that comes from the docking branch in dearimgui.
+
+To use docking:
+
+- enable it in the config.
+```
+let mut imgui = imgui::Context::create();
+// ...
+imgui.io_mut().config_flags |= imgui::ConfigFlags::DOCKING_ENABLE;
+```
+
+- then if you want to use the Dock builder.
+```
+imgui::Window::new(im_str!("Viewport")).build(&ui, || {});
+imgui::Window::new(im_str!("NodeGraph")).build(&ui, || {});
+imgui::Window::new(im_str!("Properties")).build(&ui, || {});
+imgui::Window::new(im_str!("Outliner")).build(&ui, || {});
+
+imgui::Dock::new().build(|root| {
+    root.size([500_f32, 500_f32]).position([0_f32, 0_f32]).split(
+        imgui::Direction::Left,
+        0.7_f32,
+        |left| {
+            left.dock_window(im_str!("Viewport"));
+            left.dock_window(im_str!("NodeGraph"));
+        },
+        |right| {
+            right.dock_window(im_str!("Properties"));
+            right.dock_window(im_str!("Outliner"));
+        },
+    )
+});
+```
 
 **Still fairly experimental!**
 
