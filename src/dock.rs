@@ -1,6 +1,6 @@
+use crate::string::ImStr;
 use crate::sys;
 use crate::Direction;
-use crate::Ui;
 
 #[derive(Clone, Copy, PartialEq)]
 pub struct DockNode {
@@ -20,6 +20,12 @@ impl DockNode {
 
     pub fn position(mut self, size: [f32; 2]) -> Self {
         unsafe { sys::igDockBuilderSetNodePos(self.id, sys::ImVec2::from(size)) }
+
+        self
+    }
+
+    pub fn dock_window(mut self, window_name: &ImStr) -> Self {
+        unsafe { sys::igDockBuilderDockWindow(window_name.as_ptr(), self.id) }
 
         self
     }
@@ -58,7 +64,9 @@ impl Dock {
 
     pub fn build<F: FnOnce(DockNode)>(self, f: F) {
         let dock_id = unsafe { sys::igDockBuilderAddNode(0, sys::ImGuiDockNodeFlags_None as i32) };
+
         f(DockNode::new(dock_id));
+
         unsafe { sys::igDockBuilderFinish(dock_id) };
     }
 }
