@@ -12,26 +12,26 @@ impl DockNode {
         Self { id }
     }
 
-    pub fn size(mut self, size: [f32; 2]) -> Self {
+    pub fn size(self, size: [f32; 2]) -> Self {
         unsafe { sys::igDockBuilderSetNodeSize(self.id, sys::ImVec2::from(size)) }
 
         self
     }
 
-    pub fn position(mut self, size: [f32; 2]) -> Self {
+    pub fn position(self, size: [f32; 2]) -> Self {
         unsafe { sys::igDockBuilderSetNodePos(self.id, sys::ImVec2::from(size)) }
 
         self
     }
 
-    pub fn dock_window(mut self, window_name: &ImStr) -> Self {
+    pub fn dock_window(self, window_name: &ImStr) -> Self {
         unsafe { sys::igDockBuilderDockWindow(window_name.as_ptr(), self.id) }
 
         self
     }
 
     pub fn split<F: FnOnce(DockNode)>(
-        mut self,
+        self,
         split_dir: Direction,
         size_ratio: f32,
         dir: F,
@@ -63,10 +63,12 @@ impl Dock {
     }
 
     pub fn build<F: FnOnce(DockNode)>(self, f: F) {
-        let dock_id = unsafe { sys::igDockBuilderAddNode(0, sys::ImGuiDockNodeFlags_None as i32) };
+        let dock_id = unsafe {
+            sys::igDockBuilderAddNode(0, sys::ImGuiDockNodeFlags_None as i32)
+        };
 
         f(DockNode::new(dock_id));
 
-        unsafe { sys::igDockBuilderFinish(dock_id) };
+        unsafe { sys::igDockBuilderFinish(dock_id) }
     }
 }
