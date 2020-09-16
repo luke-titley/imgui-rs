@@ -1,6 +1,6 @@
 # imgui-docking-rs: Rust bindings for Dear ImGui
 
-This is a fork of the Gekkio/imgui-rs repo, adding support for docking from this repo https://github.com/rasky/imgui-rs/tree/docking, with some updates.
+This is a fork of the https://github.com/Gekkio/imgui-rs repo, adding support for docking from this repo https://github.com/rasky/imgui-rs/tree/docking, with some updates.
 This repo also has a basic public api for the dearimgui DockBuilder.
 
 This repo stays in lock step with the master branch of Gekkio/imgui-rs, but with changes that comes from the docking branch in dearimgui.
