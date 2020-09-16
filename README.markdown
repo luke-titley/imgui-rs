@@ -8,14 +8,14 @@ This repo stays in lock step with the master branch of Gekkio/imgui-rs, but with
 To use docking:
 
 - enable it in the config.
-```
+```rust
 let mut imgui = imgui::Context::create();
 // ...
 imgui.io_mut().config_flags |= imgui::ConfigFlags::DOCKING_ENABLE;
 ```
 
 - then if you want to use the Dock builder.
-```
+```rust
 imgui::Window::new(im_str!("Viewport")).build(&ui, || {});
 imgui::Window::new(im_str!("NodeGraph")).build(&ui, || {});
 imgui::Window::new(im_str!("Properties")).build(&ui, || {});
