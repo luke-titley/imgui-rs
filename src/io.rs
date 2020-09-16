@@ -195,7 +195,7 @@ pub struct Io {
     /// framebuffer coordinates
     pub display_framebuffer_scale: [f32; 2],
 
-        /// Simplified docking mode: disable window splitting, so docking is limited to merging
+    /// Simplified docking mode: disable window splitting, so docking is limited to merging
     /// multiple windows together into tab-bars.
     pub docking_no_split: bool,
 
