@@ -18,8 +18,8 @@ impl DockNode {
         self
     }
 
-    pub fn position(self, size: [f32; 2]) -> Self {
-        unsafe { sys::igDockBuilderSetNodePos(self.id, sys::ImVec2::from(size)) }
+    pub fn position(self, position: [f32; 2]) -> Self {
+        unsafe { sys::igDockBuilderSetNodePos(self.id, sys::ImVec2::from(position)) }
 
         self
     }
