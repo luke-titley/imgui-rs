@@ -13,6 +13,9 @@ fn main() {
         Window::new(im_str!("Docking")).build(ui, || {
             ui.text(im_str!("Docking"));
         });
+        Window::new(im_str!("Awesome")).build(ui, || {
+            ui.text(im_str!("Awesome"));
+        });
 
         if first_time {
             first_time = false;
@@ -26,7 +29,14 @@ fn main() {
                             left.dock_window(im_str!("Hello"));
                         },
                         |right| {
-                            right.dock_window(im_str!("Docking"));
+                               right.split(imgui::Direction::Up, 0.5_f32,
+                                |top| {
+                                    top.dock_window(im_str!("Docking"));
+                                },
+                                |bottom| {
+                                    bottom.dock_window(im_str!("Awesome"));
+                                }
+                               );
                         },
                     )
             });
