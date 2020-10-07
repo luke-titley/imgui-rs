@@ -144,7 +144,7 @@ pub struct Style {
     /// Decrease for higher quality but more geometry.
     pub circle_segment_max_error: f32,
     /// Style colors.
-    pub colors: [[f32; 4]; 48],
+    pub colors: [[f32; 4]; StyleColor::COUNT],
 }
 
 unsafe impl RawCast<sys::ImGuiStyle> for Style {}
