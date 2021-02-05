@@ -5,41 +5,41 @@ mod support;
 fn main() {
     let mut system = support::init(file!());
     system.imgui.io_mut().config_flags |= imgui::ConfigFlags::DOCKING_ENABLE;
+
     let mut first_time = true;
     system.main_loop(move |_, ui| {
-        Window::new(im_str!("Hello")).build(ui, || {
-            ui.text(im_str!("Hello"));
-        });
-        Window::new(im_str!("Docking")).build(ui, || {
-            ui.text(im_str!("Docking"));
-        });
-        Window::new(im_str!("Awesome")).build(ui, || {
-            ui.text(im_str!("Awesome"));
-        });
 
-        if first_time {
-            first_time = false;
-            imgui::Dock::new().build(|root| {
-                root.size([512_f32, 512_f32])
-                    .position([0_f32, 0_f32])
-                    .split(
-                        imgui::Direction::Left,
-                        0.7_f32,
-                        |left| {
-                            left.dock_window(im_str!("Hello"));
-                        },
-                        |right| {
-                               right.split(imgui::Direction::Up, 0.5_f32,
-                                |top| {
-                                    top.dock_window(im_str!("Docking"));
-                                },
-                                |bottom| {
-                                    bottom.dock_window(im_str!("Awesome"));
-                                }
-                               );
-                        },
-                    )
+
+        imgui::Window::new(im_str!("Main"))
+            .flags(
+                // No borders etc for top-level window
+                imgui::WindowFlags::NO_DECORATION | imgui::WindowFlags::NO_MOVE |
+                // Show menu bar
+                imgui::WindowFlags::MENU_BAR |
+                // Don't want the dock area to be dockable!
+                .imgui::WindowFlags::NO_DOCKING |
+                // Don't raise window on focus (as it'll clobber floating windows)
+                imgui::WindowFlags::NO_BRING_TO_FRONT_ON_FOCUS | imgui::WindowFlags::NO_NAV_FOCUS,
+                )
+            .position([0.0, 0.0], imgui::Condition::Always)
+            .size(ui.io().display_size, imgui::Condition::Always)
+            .build(ui, || {
+                ui.dockspace();
+
+                ui.menu_bar(|| {
+
+                    ui.menu(im_str!("File"), true, || {
+                        imgui::MenuItem::new(im_str!("Quit")).enabled(true).build(ui);
+                    });
+                    ui.menu(im_str!("Help"), true, || {
+                        ui.button(im_str!("Version"), [100.0, 20.0]);
+                    });
+                });
+
             });
-        }
+
+        imgui::Window::new(im_str!("Node graph"))
+            .build(ui, || {
+            });
     });
 }

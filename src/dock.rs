@@ -62,11 +62,12 @@ impl Dock {
         Self {}
     }
 
-    pub fn build<F: FnOnce(DockNode)>(self, f: F) {
+    pub fn build<F: FnOnce(DockNode)>(self, f: F) -> DockNode {
         let dock_id = unsafe { sys::igDockBuilderAddNode(0, sys::ImGuiDockNodeFlags_None as i32) };
 
         f(DockNode::new(dock_id));
 
         unsafe { sys::igDockBuilderFinish(dock_id) }
+        DockNode{id: dock_id}
     }
 }

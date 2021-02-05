@@ -109,6 +109,7 @@ bitflags! {
         /// Shorthand for `WindowFlags::NO_MOUSE_INPUTS | WindowFlags::NO_NAV_INPUTS |
         /// WindowFlags::NO_NAV_FOCUS`.
         const NO_INPUTS = sys::ImGuiWindowFlags_NoInputs;
+        const NO_DOCKING = sys::ImGuiWindowFlags_NoDocking;
     }
 }
 

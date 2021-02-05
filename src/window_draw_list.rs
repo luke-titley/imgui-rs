@@ -1,6 +1,7 @@
 use sys::{ImDrawList, ImU32};
 
 use super::Ui;
+use crate::render::renderer::TextureId;
 use crate::legacy::ImDrawCornerFlags;
 
 use std::marker::PhantomData;
@@ -247,6 +248,20 @@ impl<'ui> WindowDrawList<'ui> {
         C: Into<ImColor>,
     {
         BezierCurve::new(self, pos0, cp0, cp1, pos1, color)
+    }
+
+    pub fn add_image(
+        &'ui self,
+        texture_id: TextureId,
+        p_min: [f32; 2],
+        p_max: [f32; 2],
+    ) -> Image
+    {
+        Image::new(
+            self,
+            texture_id,
+            p_min,
+            p_max)
     }
 
     /// Push a clipping rectangle on the stack, run `f` and pop it.
@@ -634,6 +649,74 @@ impl<'ui> BezierCurve<'ui> {
                 self.thickness,
                 self.num_segments.unwrap_or(0) as i32,
             )
+        }
+    }
+}
+
+/// Represents a image about to be drawn
+#[must_use = "should call .build() to draw the object"]
+pub struct Image<'ui> {
+    texture_id: TextureId,
+    p_min: [f32; 2],
+    p_max: [f32; 2],
+    uv_min: [f32; 2],
+    uv_max: [f32; 2],
+    col: ImColor,
+    draw_list: &'ui WindowDrawList<'ui>,
+}
+
+impl<'ui> Image<'ui> {
+    fn new(
+        draw_list: &'ui WindowDrawList,
+        texture_id: TextureId,
+        p_min: [f32; 2],
+        p_max: [f32; 2],
+    ) -> Self
+    {
+        Self {
+            texture_id,
+            p_min,
+            p_max,
+            uv_min: [0.0, 0.0],
+            uv_max: [1.0, 1.0],
+            col: [1.0, 1.0, 1.0, 1.0].into(),
+            draw_list,
+        }
+    }
+
+    /// Set uv_min (default `[0.0, 0.0]`)
+    pub fn uv0(mut self, uv_min: [f32; 2]) -> Self {
+        self.uv_min = uv_min;
+        self
+    }
+    /// Set uv_max (default `[1.0, 1.0]`)
+    pub fn uv_max(mut self, uv_max: [f32; 2]) -> Self {
+        self.uv_max = uv_max;
+        self
+    }
+
+    /// Set color (default: white `[1.0, 1.0, 1.0, 1.0]`)
+    pub fn col<C>(mut self, col: C) -> Self
+    where
+        C: Into<ImColor>
+    {
+        self.col = col.into();
+        self
+    }
+
+    /// Draw the image on the window.
+    pub fn build(self) {
+        use std::os::raw::c_void;
+
+        unsafe {
+            sys::ImDrawList_AddImage(
+                self.draw_list.draw_list,
+                self.texture_id.id() as *mut c_void,
+                self.p_min.into(),
+                self.p_max.into(),
+                self.uv_min.into(),
+                self.uv_max.into(),
+                self.col.into());
         }
     }
 }

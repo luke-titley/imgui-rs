@@ -519,7 +519,7 @@ dependencies = [
 
 [[package]]
 name = "imgui"
-version = "0.5.0"
+version = "0.6.1"
 dependencies = [
  "bitflags",
  "glium",
@@ -542,7 +542,7 @@ dependencies = [
 
 [[package]]
 name = "imgui-glium-renderer"
-version = "0.5.0"
+version = "0.6.1"
 dependencies = [
  "glium",
  "imgui",
@@ -550,14 +550,14 @@ dependencies = [
 
 [[package]]
 name = "imgui-sys"
-version = "0.5.0"
+version = "0.6.1"
 dependencies = [
  "cc",
 ]
 
 [[package]]
 name = "imgui-winit-support"
-version = "0.5.0"
+version = "0.6.1"
 dependencies = [
  "imgui",
  "winit",

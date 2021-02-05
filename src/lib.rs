@@ -11,7 +11,7 @@ use std::thread;
 
 pub use self::clipboard::*;
 pub use self::context::*;
-pub use self::dock::Dock;
+pub use self::dock::{Dock, DockNode};
 pub use self::drag::{
     DragFloat, DragFloat2, DragFloat3, DragFloat4, DragFloatRange2, DragInt, DragInt2, DragInt3,
     DragInt4, DragIntRange2,
@@ -527,4 +527,29 @@ pub enum Direction {
     Right = sys::ImGuiDir_Right,
     Up = sys::ImGuiDir_Up,
     Down = sys::ImGuiDir_Down,
+}
+
+
+/// # Docking
+impl<'ui> Ui<'ui> {
+    pub fn dockspace(&'ui self, label: &ImStr) {
+        unsafe {
+            let id = sys::igGetIDStr(label.as_ptr() as *const c_char);
+            sys::igDockSpace(
+                id,
+                [0.0, 0.0].into(),
+                0,
+                ::std::ptr::null::<sys::ImGuiWindowClass>());
+        }
+    }
+
+    pub fn dockspace_over_viewport(&'ui self) {
+        unsafe {
+            sys::igDockSpaceOverViewport(
+                sys::igGetMainViewport(),
+                0,
+                ::std::ptr::null::<sys::ImGuiWindowClass>(),
+            );
+        }
+    }
 }
